@@ -1,0 +1,23 @@
+{
+  "name": "github-api-endpoints",
+  "description": "A list of all the paths supported by the GitHub v3 API",
+  "version": "1.0.0",
+  "main": "endpoints.json",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "cheerio": "^1.0.0-rc.2",
+    "got": "^7.1.0",
+    "http-verbs": "^1.0.0",
+    "lodash": "^4.17.4",
+    "mocha": "^3.5.3",
+    "standard": "^10.0.3",
+    "standard-markdown": "^4.0.2"
+  },
+  "scripts": {
+    "build": "node script/build.js",
+    "test": "mocha && standard --fix && standard-markdown",
+    "pretest": "npm run build"
+  },
+  "bin": "cmd.js"
+}
