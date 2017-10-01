@@ -23,7 +23,7 @@ endpoints.length
 // 485
 
 endpoints.filter(e => e.includes('GET /gists'))
-// [ 
+// [
 //  'GET /gists',
 //  'GET /gists/:gist_id/comments',
 //  'GET /gists/:gist_id/comments/:id',
