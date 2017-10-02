@@ -15,12 +15,21 @@ getPaths()
       JSON.stringify(paths, null, 2)
     )
 
-    return Promise.all(paths.map(getEndpoints))
+    return Promise.all(paths.map(getCodeSnippets))
   })
-  .then(endpoints => {
+  .then(snippets => {
+    snippets = chain(snippets).flatten().sort().value()
+
+    const endpoints = snippets.filter(text => verbs.some(verb => text.startsWith(verb)))
     fs.writeFileSync(
       path.join(__dirname, '../endpoints.json'),
-      JSON.stringify(chain(endpoints).flatten().sort(), null, 2)
+      JSON.stringify(endpoints, null, 2)
+    )
+
+    const previewHeaders = snippets.filter(text => text.startsWith('application/'))
+    fs.writeFileSync(
+      path.join(__dirname, '../preview-headers.json'),
+      JSON.stringify(previewHeaders, null, 2)
     )
   })
 
@@ -36,7 +45,7 @@ async function getPaths () {
     .sort()
 }
 
-async function getEndpoints (path) {
+async function getCodeSnippets (path) {
   const url = baseUrl + path
   const page = await got(url)
   const $ = cheerio.load(page.body)
@@ -44,5 +53,4 @@ async function getEndpoints (path) {
   return $('pre code')
     .map((i, el) => $(el).text().trim())
     .get()
-    .filter(text => verbs.some(verb => text.startsWith(verb)))
 }
